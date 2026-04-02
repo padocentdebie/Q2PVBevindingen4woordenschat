@@ -3,36 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snel-Bingo: 6 Woorden</title>
+    <title>Unieke Podcast Bingo</title>
     <style>
         :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6; --green: #2ecc71; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .container { max-width: 800px; width: 100%; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        
-        /* Compacte Grid voor 6 items */
         .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
         .bingo-cell { 
             background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 12px; padding: 20px 10px; 
             text-align: center; cursor: pointer; font-weight: bold; transition: 0.2s; min-height: 80px;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
         }
-        .bingo-cell.marked { background: var(--green); color: white; border-color: #27ae60; transform: translateY(-3px); }
-
+        .bingo-cell.marked { background: var(--green); color: white; border-color: #27ae60; transform: scale(1.05); }
         .login-box { background: #e3f2fd; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
         input, select { padding: 10px; margin: 5px; border-radius: 8px; border: 1px solid #ccc; }
-        
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         th { background: var(--primary); color: white; }
-        
-        .btn-reset { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 50px; font-size: 0.8rem; }
-        .btn-reset:hover { background: var(--accent); }
+        .btn-reset { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 40px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="text-align:center;">🎯 Snelle Woorden Bingo</h2>
+    <h2 style="text-align:center;">🎧 Podcast Bingo: Anatomie van de Afgrond</h2>
 
     <div class="login-box" id="login-area">
         <select id="klas-select">
@@ -43,17 +37,18 @@
             <option value="Juliet">Juliet</option><option value="Kilo">Kilo</option>
             <option value="Lima">Lima</option><option value="Mike">Mike</option>
         </select>
-        <input type="text" id="student-name" placeholder="Je naam...">
-        <button onclick="startBingo()" style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">Start</button>
+        <input type="text" id="student-name" placeholder="Je voornaam...">
+        <button onclick="startBingo()" style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;">Start mijn kaart</button>
     </div>
 
     <div id="game-area" style="display:none;">
+        <p style="text-align:center; color: #666;"><i>Klik op de woorden zodra je ze hoort in de podcast.</i></p>
         <div class="bingo-grid" id="bingo-grid"></div>
         
-        <h3>🏆 Tussenstand</h3>
+        <h3 style="margin-top:30px;">🏆 Live Stand (Wie heeft de meeste?)</h3>
         <div id="leaderboard">Laden...</div>
         
-        <button class="btn-reset" onclick="resetData()">Clear alle resultaten (Admin)</button>
+        <button class="btn-reset" onclick="resetData()">Systeem Reset (Admin)</button>
     </div>
 </div>
 
@@ -66,52 +61,75 @@
         authDomain: "aangifteq2les1.firebaseapp.com",
         databaseURL: "https://aangifteq2les1-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "aangifteq2les1",
-        storageBucket: "aangifteq2les1.firebasestorage.app",
-        messagingSenderId: "1071661084879",
         appId: "1:1071661084879:web:ec81dfed806ad75a8847ba"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const alleWoorden = ["Adolescent", "Hypocrisie", "Decadentie", "Integratie", "Capitulatie", "Confidentieel"];
+    const woordenPool = [
+        "Adolescent", "Aristocraten", "Hypocrisie", "Mechanica", "Sanatorium", 
+        "Reprimande", "Annexeren", "Collectoren", "Occupatie", "Totalitair", 
+        "Dispuut", "Curriculum vitae", "Veinzen", "Decadentie", "Integratie", 
+        "Recessief", "Capitulatie", "Futiel", "Sculptuur", "Negatie", 
+        "Denigreren", "Kaste", "Scala", "Guitig", "Elementair", 
+        "Endoscopie", "Confidentieel", "Squadron", "Postscriptum"
+    ];
+
     let currentUser = "";
+    let mijnWoorden = [];
     let marked = [];
 
     window.startBingo = function() {
         const name = document.getElementById('student-name').value;
         const klas = document.getElementById('klas-select').value;
-        if(!name) return alert("Naam invullen!");
+        if(!name) return alert("Vul eerst je naam in!");
         
-        currentUser = `${klas}_${name}`;
+        currentUser = `${klas}_${name.replace(/\s/g, '')}`;
         document.getElementById('login-area').style.display = 'none';
         document.getElementById('game-area').style.display = 'block';
         
+        // Kies 6 unieke woorden voor DEZE student
+        mijnWoorden = [...woordenPool].sort(() => 0.5 - Math.random()).slice(0, 6);
+        
         const grid = document.getElementById('bingo-grid');
-        alleWoorden.forEach(w => {
+        mijnWoorden.forEach(w => {
             const cell = document.createElement('div');
             cell.className = 'bingo-cell';
             cell.innerText = w;
             cell.onclick = () => {
                 cell.classList.toggle('marked');
                 marked = cell.classList.contains('marked') ? [...marked, w] : marked.filter(x => x !== w);
-                set(ref(db, 'snelle_bingo/' + currentUser), { name, klas, score: marked.length });
+                
+                // Update Firebase
+                set(ref(db, 'bingo_sessie/' + currentUser), { 
+                    name, 
+                    klas, 
+                    score: marked.length,
+                    bingo: marked.length === 6 
+                });
+
+                if(marked.length === 6) alert("BINGO! Je hebt alle woorden gevonden!");
             };
             grid.appendChild(cell);
         });
 
-        onValue(ref(db, 'snelle_bingo'), (snap) => {
+        // Leaderboard listener
+        onValue(ref(db, 'bingo_sessie'), (snap) => {
             const data = snap.val();
-            let html = `<table><tr><th>Klas</th><th>Naam</th><th>Score</th></tr>`;
+            let html = `<table><tr><th>Klas</th><th>Naam</th><th>Voortgang</th></tr>`;
             const scores = Object.values(data || {}).sort((a,b) => b.score - a.score);
-            scores.forEach(s => html += `<tr><td>${s.klas}</td><td>${s.name}</td><td><b>${s.score}/6</b></td></tr>`);
+            scores.forEach(s => {
+                const status = s.bingo ? "⭐ <b>BINGO!</b>" : `${s.score}/6`;
+                html += `<tr><td>${s.klas}</td><td>${s.name}</td><td>${status}</td></tr>`;
+            });
             document.getElementById('leaderboard').innerHTML = html + `</table>`;
         });
     };
 
     window.resetData = function() {
-        if(prompt("Wachtwoord:") === "admin123") {
-            remove(ref(db, 'snelle_bingo')).then(() => location.reload());
+        if(prompt("Admin wachtwoord:") === "admin123") {
+            remove(ref(db, 'bingo_sessie')).then(() => location.reload());
         }
     };
 </script>
