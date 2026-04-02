@@ -3,47 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bingo: Anatomie van de Afgrond</title>
+    <title>Snel-Bingo: 6 Woorden</title>
     <style>
-        :root {
-            --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6;
-            --bingo-green: #2ecc71; --white: #ffffff;
-        }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 1000px; width: 100%; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6; --green: #2ecc71; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 800px; width: 100%; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        h1 { color: var(--primary); text-align: center; }
-        
-        /* Audio & Subtitles */
-        .audio-section { background: #eee; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center; border: 1px solid #ddd; }
-        #subtitle-display { min-height: 60px; font-style: italic; color: #555; font-size: 1.2rem; margin-top: 10px; padding: 15px; border-left: 5px solid var(--accent); background: white; border-radius: 0 8px 8px 0; }
-
-        /* Bingo Grid */
-        .bingo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 20px; }
+        /* Compacte Grid voor 6 items */
+        .bingo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
         .bingo-cell { 
-            background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 8px; padding: 15px 5px; 
-            text-align: center; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; min-height: 60px;
+            background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 12px; padding: 20px 10px; 
+            text-align: center; cursor: pointer; font-weight: bold; transition: 0.2s; min-height: 80px;
+            display: flex; align-items: center; justify-content: center;
         }
-        .bingo-cell.marked { background: var(--bingo-green); color: white; border-color: #27ae60; transform: scale(1.02); }
+        .bingo-cell.marked { background: var(--green); color: white; border-color: #27ae60; transform: translateY(-3px); }
 
-        /* Forms & Tables */
-        .login-box { margin-bottom: 20px; text-align: center; background: #ebf8ff; padding: 20px; border-radius: 12px; }
-        select, input { padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 1rem; }
-        table { width: 100%; border-collapse: collapse; margin-top: 30px; background: white; }
-        th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
+        .login-box { background: #e3f2fd; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+        input, select { padding: 10px; margin: 5px; border-radius: 8px; border: 1px solid #ccc; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         th { background: var(--primary); color: white; }
-        .correct-words { font-size: 0.75rem; color: #7f8c8d; max-width: 300px; }
+        
+        .btn-reset { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 50px; font-size: 0.8rem; }
+        .btn-reset:hover { background: var(--accent); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🎙️ Vocabulaire Bingo: Anatomie van de Afgrond</h1>
+    <h2 style="text-align:center;">🎯 Snelle Woorden Bingo</h2>
 
     <div class="login-box" id="login-area">
         <select id="klas-select">
-            <option value="">Kies klas...</option>
             <option value="Alfa">Alfa</option><option value="Bravo">Bravo</option>
             <option value="Charlie">Charlie</option><option value="Delta">Delta</option>
             <option value="Echo">Echo</option><option value="Foxtrot">Foxtrot</option>
@@ -51,30 +43,24 @@
             <option value="Juliet">Juliet</option><option value="Kilo">Kilo</option>
             <option value="Lima">Lima</option><option value="Mike">Mike</option>
         </select>
-        <input type="text" id="student-name" placeholder="Je voornaam...">
-        <button onclick="startBingo()" style="padding: 10px 20px; background: var(--accent); color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Start Spel</button>
+        <input type="text" id="student-name" placeholder="Je naam...">
+        <button onclick="startBingo()" style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">Start</button>
     </div>
 
     <div id="game-area" style="display:none;">
-        <div class="audio-section">
-            <audio id="podcast-audio" controls style="width: 100%;">
-                <source src="podcast_anatomie_afgrond.m4a" type="audio/mp4">
-            </audio>
-            <div id="subtitle-display">Klik op play om de podcast te starten...</div>
-        </div>
-
         <div class="bingo-grid" id="bingo-grid"></div>
-
-        <h2 style="margin-top:40px; border-bottom: 2px solid var(--primary);">🏆 Live Leaderboard</h2>
+        
+        <h3>🏆 Tussenstand</h3>
         <div id="leaderboard">Laden...</div>
+        
+        <button class="btn-reset" onclick="resetData()">Clear alle resultaten (Admin)</button>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    // JOUW SPECIFIEKE CONFIGURATIE
     const firebaseConfig = {
         apiKey: "AIzaSyA3_rzoZOWytlyAbYKKe_WuFlD8z2WvbX4",
         authDomain: "aangifteq2les1.firebaseapp.com",
@@ -88,109 +74,45 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const woordenlijst = [
-        "Adolescent", "Aristocraten", "Hypocrisie", "Mechanica", "Sanatorium", 
-        "Reprimande", "Annexeren", "Collectoren", "Occupatie", "Totalitair", 
-        "Dispuut", "Curriculum vitae", "Veinzen", "Decadentie", "Integratie", 
-        "Recessief", "Capitulatie", "Futiel", "Sculptuur", "Negatie", 
-        "Denigreren", "Kaste", "Scala", "Guitig", "Elementair", 
-        "Endoscopie", "Confidentieel", "Squadron", "Postscriptum"
-    ];
-
-    const subtitles = [
-        { t: 0, txt: "Goedenavond, adolescent gespuis en overjarige aristocraten..." },
-        { t: 5, txt: "Welkom bij de hypocrisie van de moderne mens." },
-        { t: 10, txt: "Iedereen claimt expert te zijn in de mechanica van het geluk..." },
-        { t: 15, txt: "Terwijl ze wegkwijnen in een mentaal sanatorium genaamd sociale media." },
-        { t: 20, txt: "Gisteren kreeg ik een reprimande van mijn verhuurder over het illegaal annexeren van de hal." },
-        { t: 30, txt: "Ik beschouw mezelf simpelweg als een van de grootste collectoren van onze tijd." },
-        { t: 40, txt: "Het is een passie, geen occupatie." },
-        { t: 45, txt: "In een wereld gedomineerd door een totalitair regime van regeltjes..." },
-        { t: 55, txt: "Het hele curriculum vitae van de mensheid is momenteel één grote grap." },
-        { t: 60, txt: "We veinzen diepgang terwijl we ons verliezen in pure decadentie." },
-        { t: 70, txt: "De integratie van domheid in onze cultuur is bijna voltooid." },
-        { t: 80, txt: "Een recessief gen dat dominant is geworden, een genetische capitulatie." },
-        { t: 90, txt: "Het voelt vaak als een futiel streven. Neem mijn sculptuur van koffiecups." },
-        { t: 100, txt: "Een prachtig symbool voor de negatie van de eindigheid." },
-        { t: 110, txt: "De kaste der intellectuelen is aan het uitsterven." },
-        { t: 120, txt: "Er is een heel scala aan redenen. De mens is guitig maar hersendood." },
-        { t: 130, txt: "Het is elementair: we zijn gedoemd." },
-        { t: 140, txt: "Mijn endoscopie details zijn confidentieel." },
-        { t: 150, txt: "Ik voelde me als een eenzaam squadron tegen de onwetendheid." },
-        { t: 160, txt: "Postscriptum: neen, geen beeldvorm. Mijn schoonheid is te overweldigend." }
-    ];
-
+    const alleWoorden = ["Adolescent", "Hypocrisie", "Decadentie", "Integratie", "Capitulatie", "Confidentieel"];
     let currentUser = "";
-    let markedWords = [];
+    let marked = [];
 
     window.startBingo = function() {
         const name = document.getElementById('student-name').value;
         const klas = document.getElementById('klas-select').value;
-        if(!name || !klas) return alert("Kies een klas en vul je naam in!");
+        if(!name) return alert("Naam invullen!");
         
-        currentUser = `${klas}_${name.replace(/\s/g, '')}`;
+        currentUser = `${klas}_${name}`;
         document.getElementById('login-area').style.display = 'none';
         document.getElementById('game-area').style.display = 'block';
         
-        setupGrid();
-        listenToLeaderboard();
-    };
-
-    function setupGrid() {
         const grid = document.getElementById('bingo-grid');
-        const shuffled = [...woordenlijst].sort(() => 0.5 - Math.random()).slice(0, 25);
-        
-        shuffled.forEach(woord => {
+        alleWoorden.forEach(w => {
             const cell = document.createElement('div');
             cell.className = 'bingo-cell';
-            cell.innerText = woord;
+            cell.innerText = w;
             cell.onclick = () => {
                 cell.classList.toggle('marked');
-                if(cell.classList.contains('marked')) {
-                    markedWords.push(woord);
-                } else {
-                    markedWords = markedWords.filter(w => w !== woord);
-                }
-                updateFirebase();
+                marked = cell.classList.contains('marked') ? [...marked, w] : marked.filter(x => x !== w);
+                set(ref(db, 'snelle_bingo/' + currentUser), { name, klas, score: marked.length });
             };
             grid.appendChild(cell);
         });
-    }
 
-    function updateFirebase() {
-        const [klas, name] = currentUser.split('_');
-        set(ref(db, 'bingo_results/' + currentUser), {
-            name: name,
-            klas: klas,
-            score: markedWords.length,
-            found: markedWords.join(', ')
+        onValue(ref(db, 'snelle_bingo'), (snap) => {
+            const data = snap.val();
+            let html = `<table><tr><th>Klas</th><th>Naam</th><th>Score</th></tr>`;
+            const scores = Object.values(data || {}).sort((a,b) => b.score - a.score);
+            scores.forEach(s => html += `<tr><td>${s.klas}</td><td>${s.name}</td><td><b>${s.score}/6</b></td></tr>`);
+            document.getElementById('leaderboard').innerHTML = html + `</table>`;
         });
-    }
+    };
 
-    function listenToLeaderboard() {
-        onValue(ref(db, 'bingo_results'), (snapshot) => {
-            const data = snapshot.val();
-            let html = `<table><tr><th>Klas</th><th>Naam</th><th>Woorden</th><th>Totaal</th></tr>`;
-            const results = Object.values(data || {}).sort((a,b) => b.score - a.score);
-            
-            results.forEach(res => {
-                html += `<tr>
-                    <td><b>${res.klas}</b></td>
-                    <td>${res.name}</td>
-                    <td class="correct-words">${res.found}</td>
-                    <td><span style="background:var(--accent); color:white; padding:4px 10px; border-radius:15px;">${res.score}</span></td>
-                </tr>`;
-            });
-            html += `</table>`;
-            document.getElementById('leaderboard').innerHTML = html;
-        });
-    }
-
-    const audio = document.getElementById('podcast-audio');
-    const display = document.getElementById('subtitle-display');
-    audio.ontimeupdate = () => {
-        const sub = subtitles.filter(s => s.t <= audio.currentTime).pop();
-        if(sub) display.innerText = sub.txt;
+    window.resetData = function() {
+        if(prompt("Wachtwoord:") === "admin123") {
+            remove(ref(db, 'snelle_bingo')).then(() => location.reload());
+        }
     };
 </script>
 </body>
