@@ -1,68 +1,197 @@
-// Gecorrigeerde ondertiteling: Tijdstempels vervroegd om synchroon te lopen
-const subtitles = [
-    { t: 0, text: "Goedenavond, adolescent gespuis en overjarige aristocraten." },
-    { t: 4.2, text: "Welkom bij weer een aflevering van mijn audio-monoloog, waarin ik de wereld fileer omdat niemand anders het durft." },
-    { t: 12.5, text: "Laten we direct beginnen met de hypocrisie van de moderne mens." },
-    { t: 17.5, text: "Iedereen claimt tegenwoordig een expert te zijn in de mechanica van het geluk..." },
-    { t: 23.5, text: "...terwijl ze collectief wegkwijnen in een mentaal sanatorium dat we 'sociale media' noemen." },
-    { t: 31.0, text: "Gisteren kreeg ik weer een reprimande van mijn verhuurder. Iets over 'onbetaalde huur'..." },
-    { t: 39.0, text: "...en 'het illegaal annexeren van de gezamenlijke hal voor mijn verzameling antieke stofzuigers'." },
-    { t: 49.0, text: "Wat een bekrompenheid! Ik beschouw mezelf simpelweg als een van de grootste collectoren van onze tijd." },
-    { t: 57.0, text: "Het is een passie, geen occupatie." },
-    { t: 61.5, text: "Maar goed, in een world die gedomineerd wordt door een totalitair regime van regeltjes en saaie buren..." },
-    { t: 70.0, text: "...is een klein dispuut over gangruimte blijkbaar een halszaak." },
-    { t: 75.5, text: "Het hele curriculum vitae van de mensheid is momenteel trouwens één grote grap." },
-    { t: 82.0, text: "We veinzen diepgang terwijl we ons verliezen in de pure decadentie van bezorgmaaltijden en reality-tv." },
-    { t: 91.0, text: "De integratie van domheid in onze cultuur is bijna voltooid." },
-    { t: 97.5, text: "Het is een recessief gen dat plotseling dominant is geworden—een genetische capitulatie waar ik liever geen deel van uitmaak." },
-    { t: 109.0, text: "Ik probeer welbepaalde waarden hoog te houden, maar het voelt vaak als een futiel streven." },
-    { t: 118.0, text: "Neem nu mijn nieuwe project: een gigantische sculptuur van mezelf, gemaakt van gerecyclede koffiecups." },
-    { t: 128.0, text: "Een prachtig symbool voor de negatie van de eindigheid! Maar wat doen de mensen?" },
-    { t: 134.5, text: "Ze denigreren mijn kunst. Ze noemen het 'afval'." },
-    { t: 140.5, text: "Laten we wel wezen: de kaste der intellectuelen is aan het uitsterven." },
-    { t: 146.5, text: "Er is een heel scala aan redenen waarom we de afgrond in storten..." },
-    { t: 152.0, text: "...maar laten we eerlijk zijn: de meeste mensen hebben het cognitieve vermogen van een guitig maar hersendood goudvisje." },
-    { t: 164.0, text: "Het is elementair, mijn beste luisteraars: we zijn gedoemd." },
-    { t: 170.5, text: "Ik was laatst in het ziekenhuis voor een endoscopie—details zijn overigens strikt confidentieel..." },
-    { t: 179.5, text: "...dus vraag er niet naar—en zelfs daar zag ik het verval." },
-    { t: 185.0, text: "De zuster keek naar mijn dossier als naar een vreemd hiëroglief." },
-    { t: 192.5, text: "Ik voelde me als een eenzaam squadron dat een verloren oorlog voert tegen de algemene onwetendheid." },
-    { t: 202.5, text: "Maar goed, ik moet afronden. Mijn thee wordt koud..." },
-    { t: 207.5, text: "...en de buurtwacht staat alweer argwanend door mijn raam te loeren." },
-    { t: 215.5, text: "Postscriptum: Voor degenen die zich afvragen of ik deze podcast ook in beeldvorm ga doen: nee." },
-    { t: 223.0, text: "Mijn schoonheid is te overweldigend voor een gewone sensor." },
-    { t: 230.0, text: "Tot de volgende keer, als we nog niet allemaal zijn opgeslokt door de middelmatigheid. Dag hoor." }
-];
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo: Anatomie van de Afgrond</title>
+    <style>
+        :root {
+            --primary: #2c3e50; --accent: #e74c3c; --bg: #f4f7f6;
+            --bingo-green: #2ecc71; --white: #ffffff;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 1000px; width: 100%; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        h1 { color: var(--primary); text-align: center; }
+        
+        /* Audio & Subtitles */
+        .audio-section { background: #eee; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center; border: 1px solid #ddd; }
+        #subtitle-display { min-height: 60px; font-style: italic; color: #555; font-size: 1.2rem; margin-top: 10px; padding: 15px; border-left: 5px solid var(--accent); background: white; border-radius: 0 8px 8px 0; }
 
-// Bingo Triggers: Ook deze zijn vervroegd zodat knoppen direct inklikbaar zijn
-const _0xSecurity = [
-    { w: "YWRvbGVzY2VudA==", d: "RWVuIGpvbmdlcmUgaW4gZGUgb3ZlcmdhbmdzZmFzZSBuYWFyIHZvbHdhc3NlbmhlaWQu", t: 1.0 },
-    { w: "YXJpc3RvY3JhdGVu", d: "SGVyZW4gdmFuIGRlIGhvZ2Ugc3RhbmQgb2YgYWRlbGlqa2Uga2xhc3Nlcy4=", t: 3.5 },
-    { w: "aHlwb2NyaXNpZQ==", d: "SHVpY2hlbGFyaWo7IHppY2ggYmV0ZXIgaG91ZGVuIGRhbiBtZW4gaXMu", t: 13.5 },
-    { w: "bWVjaGFuaWNh", d: "RGUgd2V0ZW5zY2hhcCByb25kIGJld2VnaW5nIGVuIGtyYWNodGVuLg==", t: 20.0 },
-    { w: "c2FuYXRvcml1bQ==", d: "RWVuIGhlcnN0ZWxsaW5nc29vcmQgdm9vciBsYW5nZHVyaWcgemlla2VuLg==", t: 25.5 },
-    { w: "cmVwcmltYW5kZQ==", d: "RWVuIGZvcm1lbGUgYmVyaXNwaW5nIG9mIGhhcmRlIHdhYXJzY2h1d2luZy4=", t: 33.0 },
-    { w: "YW5uZXhlcmVu", d: "SGV0IGluIGJleml0IG5lbWVuIHZhbiBlZW4gZ2ViaWVkLg==", t: 42.0 },
-    { w: "Y29sbGVjdG9yZW4=", d: "VmVyemFtZWxhYXJzIHZhbiBvYmplY3RlbiBvZiBpbmZvcm1hdGllLg==", t: 52.0 },
-    { w: "b2NjdXBhdGll", d: "RGUgYmV6ZXR0aW5nIHZhbiBlZW4gbGFuZCwgcGFuZCBvZiBnZWJpZWQu", t: 58.5 },
-    { w: "dG90YWxpdGFpcg==", d: "RWVuIHN5c3RlZW0gd2FhcmluIGRlIHN0YWF0IHZvbGxlZGlnZSByZWdpZSB2b2VydC4=", t: 65.0 },
-    { w: "ZGlzcHV1dA==", d: "RWVuIHZlcmhpdHRlIHdvb3JkZW5zdHJpamQu", t: 71.5 },
-    { w: "Y3VycmljdWx1bSB2aXRhZQ==", d: "RWVuIG92ZXJ6aWNodCB2YW4gamUgb3BsZWlkaW5nIGVuIHdlcmtlcnZhcmluZy4=", t: 77.5 },
-    { w: "dmVpbnplbg==", d: "SHVpY2hlbGVuIG9mIHppY2ggYmV0ZXIgaG91ZGVuIGRhbiBtZW4gaXMu", t: 84.5 },
-    { w: "ZGVjYWRlbnRpZQ==", d: "Q3VsdHVyZWVsIHZlcnZhbCBvZiBvbm1hdGlnZSBsdXhlLg==", t: 89.5 },
-    { w: "aW50ZWdyYXRpZQ==", d: "SGV0IHNhbWVudm9lZ2VuIHZhbiBkZWxlbiB0b3QgZWVuIGdlZWVsLg==", t: 95.0 },
-    { w: "cmVjZXNzaWVm", d: "TmlldC1kb21pbmFudDsgbmVpZ2VuZCB0b3QgdGVydWd0cmVra2luZy4=", t: 100.5 },
-    { w: "Y2FwaXR1bGF0aWVs", d: "RGUgb3ZlcmdhdmUgYWFuIGRlIHZpamFuZC4=", t: 107.0 },
-    { w: "ZnV0aWVs", d: "TmlldGlnLCBvbmJlbGFuZ3Jpamsgb2Ygem9uZGVyIGVuaWdlIHdhYXJkZS4=", t: 116.0 },
-    { w: "c2N1bHB0dXVy", d: "RWVuIGJlZWxkaG91d3dlcmssIHZhbiBtYXJtZXIgb2YgYW5kZXIgbWF0ZXJpYWFsLg==", t: 123.0 },
-    { w: "bmVnYXRpZQ==", d: "T250a2VubmluZyBvZiBoZXQgbmlldC1iZXN0YWFuIHZhbiBpZXRzLg==", t: 131.5 },
-    { w: "ZGVuaWdyZXJlbg==", d: "SWeightWVtZCBvcCBtaW5kZXJ3YWFyZGlnZSB3aWp6ZSBhZnNjaGlsZGVyZW4u", t: 136.5 },
-    { w: "a2FzdGU=", d: "RWVuIGFmZ2VzbG90ZW4gbWFhdHNjaGFwcGVsaWprZSBncm9lcC4=", t: 143.5 },
-    { w: "c2NhbGE=", d: "RWVuIGJyZWlkZSB2YXJpYXRpZSBvZiByZWVrcyB2YW4gbW9nZWxpamtoZWRlbi4=", t: 148.5 },
-    { w: "Z3VpdGln", d: "T25kZXVnZW5kLCBtYWFyIG9wayBlZW4gZ3JhcHBpZ2UgbWFuaWVyLg==", t: 159.0 },
-    { w: "ZWxlbWVudGFpcg==", d: "RGUgYmFzaXMgYmV0cmVra2VuZC4=", t: 165.5 },
-    { w: "ZW5kb3Njb3BpZQ==", d: "SW53ZW5kaWcgb25kZXJ6b2VrIHZhbiBoZXQgbGljaGFhbSBtZXQgZWVuIGNhbWVyYS4=", t: 175.5 },
-    { w: "Y29uZmlkZW50aWVlbA==", d: "VmVydHJvdXdlbGlqay4=", t: 181.5 },
-    { w: "c3F1YWRyb24=", d: "RWVuIG1pbGl0YWlyZSBlZW5oZWlkLg==", t: 194.5 },
-    { w: "cG9zdHNjcmlwdHVt", d: "TmFzY2hyaWZ0IG9uIGVlbiBicmllZi4=", t: 217.5 }
-];
+        /* Bingo Grid */
+        .bingo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 20px; }
+        .bingo-cell { 
+            background: #ecf0f1; border: 2px solid #bdc3c7; border-radius: 8px; padding: 15px 5px; 
+            text-align: center; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; min-height: 60px;
+        }
+        .bingo-cell.marked { background: var(--bingo-green); color: white; border-color: #27ae60; transform: scale(1.02); }
+
+        /* Forms & Tables */
+        .login-box { margin-bottom: 20px; text-align: center; background: #ebf8ff; padding: 20px; border-radius: 12px; }
+        select, input { padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; background: white; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: left; }
+        th { background: var(--primary); color: white; }
+        .correct-words { font-size: 0.75rem; color: #7f8c8d; max-width: 300px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎙️ Vocabulaire Bingo: Anatomie van de Afgrond</h1>
+
+    <div class="login-box" id="login-area">
+        <select id="klas-select">
+            <option value="">Kies klas...</option>
+            <option value="Alfa">Alfa</option><option value="Bravo">Bravo</option>
+            <option value="Charlie">Charlie</option><option value="Delta">Delta</option>
+            <option value="Echo">Echo</option><option value="Foxtrot">Foxtrot</option>
+            <option value="Golf">Golf</option><option value="Hotel">Hotel</option>
+            <option value="Juliet">Juliet</option><option value="Kilo">Kilo</option>
+            <option value="Lima">Lima</option><option value="Mike">Mike</option>
+        </select>
+        <input type="text" id="student-name" placeholder="Je voornaam...">
+        <button onclick="startBingo()" style="padding: 10px 20px; background: var(--accent); color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Start Spel</button>
+    </div>
+
+    <div id="game-area" style="display:none;">
+        <div class="audio-section">
+            <audio id="podcast-audio" controls style="width: 100%;">
+                <source src="podcast_anatomie_afgrond.m4a" type="audio/mp4">
+            </audio>
+            <div id="subtitle-display">Klik op play om de podcast te starten...</div>
+        </div>
+
+        <div class="bingo-grid" id="bingo-grid"></div>
+
+        <h2 style="margin-top:40px; border-bottom: 2px solid var(--primary);">🏆 Live Leaderboard</h2>
+        <div id="leaderboard">Laden...</div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+    // JOUW SPECIFIEKE CONFIGURATIE
+    const firebaseConfig = {
+        apiKey: "AIzaSyA3_rzoZOWytlyAbYKKe_WuFlD8z2WvbX4",
+        authDomain: "aangifteq2les1.firebaseapp.com",
+        databaseURL: "https://aangifteq2les1-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "aangifteq2les1",
+        storageBucket: "aangifteq2les1.firebasestorage.app",
+        messagingSenderId: "1071661084879",
+        appId: "1:1071661084879:web:ec81dfed806ad75a8847ba"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const woordenlijst = [
+        "Adolescent", "Aristocraten", "Hypocrisie", "Mechanica", "Sanatorium", 
+        "Reprimande", "Annexeren", "Collectoren", "Occupatie", "Totalitair", 
+        "Dispuut", "Curriculum vitae", "Veinzen", "Decadentie", "Integratie", 
+        "Recessief", "Capitulatie", "Futiel", "Sculptuur", "Negatie", 
+        "Denigreren", "Kaste", "Scala", "Guitig", "Elementair", 
+        "Endoscopie", "Confidentieel", "Squadron", "Postscriptum"
+    ];
+
+    const subtitles = [
+        { t: 0, txt: "Goedenavond, adolescent gespuis en overjarige aristocraten..." },
+        { t: 5, txt: "Welkom bij de hypocrisie van de moderne mens." },
+        { t: 10, txt: "Iedereen claimt expert te zijn in de mechanica van het geluk..." },
+        { t: 15, txt: "Terwijl ze wegkwijnen in een mentaal sanatorium genaamd sociale media." },
+        { t: 20, txt: "Gisteren kreeg ik een reprimande van mijn verhuurder over het illegaal annexeren van de hal." },
+        { t: 30, txt: "Ik beschouw mezelf simpelweg als een van de grootste collectoren van onze tijd." },
+        { t: 40, txt: "Het is een passie, geen occupatie." },
+        { t: 45, txt: "In een wereld gedomineerd door een totalitair regime van regeltjes..." },
+        { t: 55, txt: "Het hele curriculum vitae van de mensheid is momenteel één grote grap." },
+        { t: 60, txt: "We veinzen diepgang terwijl we ons verliezen in pure decadentie." },
+        { t: 70, txt: "De integratie van domheid in onze cultuur is bijna voltooid." },
+        { t: 80, txt: "Een recessief gen dat dominant is geworden, een genetische capitulatie." },
+        { t: 90, txt: "Het voelt vaak als een futiel streven. Neem mijn sculptuur van koffiecups." },
+        { t: 100, txt: "Een prachtig symbool voor de negatie van de eindigheid." },
+        { t: 110, txt: "De kaste der intellectuelen is aan het uitsterven." },
+        { t: 120, txt: "Er is een heel scala aan redenen. De mens is guitig maar hersendood." },
+        { t: 130, txt: "Het is elementair: we zijn gedoemd." },
+        { t: 140, txt: "Mijn endoscopie details zijn confidentieel." },
+        { t: 150, txt: "Ik voelde me als een eenzaam squadron tegen de onwetendheid." },
+        { t: 160, txt: "Postscriptum: neen, geen beeldvorm. Mijn schoonheid is te overweldigend." }
+    ];
+
+    let currentUser = "";
+    let markedWords = [];
+
+    window.startBingo = function() {
+        const name = document.getElementById('student-name').value;
+        const klas = document.getElementById('klas-select').value;
+        if(!name || !klas) return alert("Kies een klas en vul je naam in!");
+        
+        currentUser = `${klas}_${name.replace(/\s/g, '')}`;
+        document.getElementById('login-area').style.display = 'none';
+        document.getElementById('game-area').style.display = 'block';
+        
+        setupGrid();
+        listenToLeaderboard();
+    };
+
+    function setupGrid() {
+        const grid = document.getElementById('bingo-grid');
+        const shuffled = [...woordenlijst].sort(() => 0.5 - Math.random()).slice(0, 25);
+        
+        shuffled.forEach(woord => {
+            const cell = document.createElement('div');
+            cell.className = 'bingo-cell';
+            cell.innerText = woord;
+            cell.onclick = () => {
+                cell.classList.toggle('marked');
+                if(cell.classList.contains('marked')) {
+                    markedWords.push(woord);
+                } else {
+                    markedWords = markedWords.filter(w => w !== woord);
+                }
+                updateFirebase();
+            };
+            grid.appendChild(cell);
+        });
+    }
+
+    function updateFirebase() {
+        const [klas, name] = currentUser.split('_');
+        set(ref(db, 'bingo_results/' + currentUser), {
+            name: name,
+            klas: klas,
+            score: markedWords.length,
+            found: markedWords.join(', ')
+        });
+    }
+
+    function listenToLeaderboard() {
+        onValue(ref(db, 'bingo_results'), (snapshot) => {
+            const data = snapshot.val();
+            let html = `<table><tr><th>Klas</th><th>Naam</th><th>Woorden</th><th>Totaal</th></tr>`;
+            const results = Object.values(data || {}).sort((a,b) => b.score - a.score);
+            
+            results.forEach(res => {
+                html += `<tr>
+                    <td><b>${res.klas}</b></td>
+                    <td>${res.name}</td>
+                    <td class="correct-words">${res.found}</td>
+                    <td><span style="background:var(--accent); color:white; padding:4px 10px; border-radius:15px;">${res.score}</span></td>
+                </tr>`;
+            });
+            html += `</table>`;
+            document.getElementById('leaderboard').innerHTML = html;
+        });
+    }
+
+    const audio = document.getElementById('podcast-audio');
+    const display = document.getElementById('subtitle-display');
+    audio.ontimeupdate = () => {
+        const sub = subtitles.filter(s => s.t <= audio.currentTime).pop();
+        if(sub) display.innerText = sub.txt;
+    };
+</script>
+</body>
+</html>
